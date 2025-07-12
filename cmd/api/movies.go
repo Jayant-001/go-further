@@ -36,9 +36,23 @@ func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request)
 
 	id, err := app.readIDParams(r)
 	if err != nil {
-		http.NotFound(w, r)
+		app.notFoundResponse(w, r)
 		return
 	}
 
-	fmt.Fprintf(w, "Show details for movie with Id %d\n", id)
+	movie := data.Movie{
+		ID:        id,
+		Title:     "Avengers",
+		Year:      2017,
+		RunTime:   120,
+		Genres:    []string{"action", "adventure"},
+		Version:   2,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	err = app.writeJson(w, http.StatusOK, envelope{"movie": movie}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }
