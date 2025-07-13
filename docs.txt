@@ -5,3 +5,8 @@ The migrations directory will contain the SQL migration files for our database.
 The remote directory will contain the configuration files and setup scripts for our production server.
 The go.mod file will declare our project dependencies, versions and module path.
 The Makefile will contain recipes for automating common administrative tasks — like auditing our Go code, building binaries, and executing database migrations.
+
+
+
+
+A panic typically means something went unexpectedly wrong. Mostly we use it to fail fast on errors that shouldn’t occur during normal operation and that we aren’t prepared to handle gracefully.

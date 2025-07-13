@@ -9,7 +9,22 @@ import (
 )
 
 func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Create a new movie")
+
+	var input struct {
+		Title   string       `'json:"title"`
+		Year    int32        `'json:"year"`
+		Runtime data.Runtime `'json:"runtime"`
+		Genres  []string     `'json:"genres"`
+	}
+
+	// err := json.NewDecoder(r.Body).Decode(&input)
+	err := app.readJSON(w, r, &input)
+	if err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	fmt.Fprintln(w, "Create a new movie", input)
 }
 
 func (app *application) getMoviesHandler(w http.ResponseWriter, r *http.Request) {
