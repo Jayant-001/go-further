@@ -31,13 +31,14 @@ type application struct {
 	logger *slog.Logger
 }
 
+// "postgres://postgres:mysecretpassword@localhost:5432/greenlight?sslmode=disable"
 func main() {
 
 	var cfg config
 
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
-	flag.StringVar(&cfg.db.dsn, "db-dsn", "postgres://postgres:mysecretpassword@localhost:5432/greenlight?sslmode=disable", "PostgreSQL DSN")
+	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"), "PostgreSQL DSN")
 
 	// hardcoding for now
 	cfg.db.maxIdleConns = 25
