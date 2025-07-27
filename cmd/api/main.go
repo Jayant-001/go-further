@@ -11,6 +11,7 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
+	"greenlight.jayant.com/internal/data"
 )
 
 const version = "1.0.0"
@@ -19,16 +20,17 @@ type config struct {
 	port int
 	env  string
 	db   struct {
-		dsn string // Data Source Name for the database connection
+		dsn          string // Data Source Name for the database connection
 		maxOpenConns int
 		maxIdleConns int
-		maxIdleTime time.Duration
+		maxIdleTime  time.Duration
 	}
 }
 
 type application struct {
 	config config
 	logger *slog.Logger
+	models data.Models
 }
 
 // "postgres://postgres:mysecretpassword@localhost:5432/greenlight?sslmode=disable"
@@ -62,6 +64,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
+		models: data.NewModels(db),
 	}
 
 	// mux := http.NewServeMux()
